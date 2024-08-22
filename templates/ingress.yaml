@@ -26,7 +26,7 @@ spec:
           service:
             name: hello-gin
             port:
-              name: http
+              name: metrics2
   tls:
   - hosts:
     - "*.codemowers.ee"
