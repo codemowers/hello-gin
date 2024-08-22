@@ -62,9 +62,8 @@ steps:
 - name: manifest
   image: plugins/manifest
   settings:
-    registry: harbor.codemowers.eu
-    target: ${DRONE_REPO}:latest
-    template: ${DRONE_REPO}:latest-ARCH
+    target: harbor.codemowers.eu/${DRONE_REPO}:latest
+    template: harbor.codemowers.eu/${DRONE_REPO}:latest-ARCH
     platforms:
       - linux/amd64
       - linux/arm64
