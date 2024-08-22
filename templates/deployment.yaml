@@ -45,4 +45,4 @@ spec:
             - containerPort: 8000
               name: http
             - containerPort: 8000
-              name: metrics
+              name: metrics2
