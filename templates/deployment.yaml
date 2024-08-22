@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: hello-gin
 spec:
+  # siin on deploymenti tase
   replicas: 3
   selector:
     matchLabels:
@@ -13,12 +14,25 @@ spec:
       labels:
         app: hello-gin
     spec:
+      securityContext: # podi tase
+        fsGroup: 2000
+        runAsGroup: 3000
+        runAsUser: 1000
       enableServiceLinks: false
       imagePullSecrets:
         - name: imgcred
       containers:
         - name: hello-gin
-          image: harbor.codemowers.eu/laurivosandi/hello-gin:latest
+          image: harbor.codemowers.eu/{{ .Values.username }}/hello-gin:latest
+          resources:
+            requests: # Kube scheduleri jaoks, need peaks olema miinimumid
+              cpu: 2m       # rate(container_cpu_usage_seconds_total{container="hello-gin"}[1m])
+              memory: 15Mi  # container_memory_usage_bytes{container="hello-gin"}
+            limits:
+              cpu: 200m # CPU throttling
+              memory: 100Mi # OOM-kill tapab
+          securityContext: # container tase
+            readOnlyRootFilesystem: true
           env:
             - name: USERNAME
               value: {{ .Values.username }}
