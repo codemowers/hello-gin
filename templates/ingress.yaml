@@ -20,6 +20,13 @@ spec:
             name: hello-gin
             port:
               name: http
+      - pathType: Prefix
+        path: /metrics
+        backend:
+          service:
+            name: hello-gin
+            port:
+              name: http
   tls:
   - hosts:
     - "*.codemowers.ee"
