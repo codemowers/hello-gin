@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: hello-gin
 spec:
+  revisionHistoryLimit: 1 # prevent Kube from keeping last 20 revisions of ReplicaSets
   # siin on deploymenti tase
   replicas: 3
   selector:
@@ -20,7 +21,7 @@ spec:
         runAsUser: 1000
       enableServiceLinks: false
       imagePullSecrets:
-        - name: imgcred
+        - name: regcred
       containers:
         - name: hello-gin
           image: harbor.codemowers.eu/{{ .Values.username }}/hello-gin:latest
