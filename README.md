@@ -1,3 +1,5 @@
+Just a testing clone to play with automated deployment
+
 # Hello cloud native Gin
 
 Cloud native example of [Gin web framework](https://gin-gonic.com/)
