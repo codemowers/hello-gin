@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome with Flare!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+            z-index: -1;
+        }
+        @keyframes float {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            color: #fff;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .greeting {
+            font-size: 2.2rem;
+            color: #ffeb3b;
+            margin: 30px 0;
+            font-weight: 700;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        .pod-info {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #ff9800;
+            text-align: left;
+            color: #fff;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .pod-info:hover {
+            transform: translateY(-10px);
+        }
+        .pod-info i {
+            color: #ff9800;
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+        .flare {
+            display: inline-block;
+            margin: 0 10px;
+            color: #ff4081;
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .footer {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+        .icons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+        .icons a {
+            color: #fff;
+            font-size: 2.5rem;
+            transition: all 0.3s;
+        }
+        .icons a:hover {
+            color: #ffeb3b;
+            transform: scale(1.3);
+        }
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="container">
+        <h1><i class="fas fa-rocket"></i> Welcome with Flare! <i class="fas fa-rocket"></i></h1>
+        <div class="greeting">
+            Hello <span class="flare">{{.username}}</span> !
+        </div>
+        <div class="pod-info">
+            <p><i class="fas fa-server"></i> You're running from: <strong>{{.podName}}</strong></p>
+            <p style="margin-top: 15px; font-size: 1.2rem;">
+                <i class="fas fa-info-circle"></i> This page is served by a Go application using Gin web framework with real-time metrics.
+            </p>
+        </div>
+        <div class="icons">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-docker"></i></a>
+            <a href="#"><i class="fab fa-kubernetes"></i></a>
+            <a href="#"><i class="fas fa-chart-line"></i></a>
+        </div>
+        <div class="footer">
+            <p>Made with <i class="fas fa-heart" style="color: #ff4081;"></i> and <i class="fas fa-bolt" style="color: #ffeb3b;"></i></p>
+            <p>Deployed with Kubernetes &amp; Docker | Metrics available at <a href="/metrics" style="color: #ffeb3b;">/metrics</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Create animated particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Random size
+            const size = Math.random() * 10 + 5;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Random position
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Random animation duration
+            const duration = Math.random() * 20 + 10;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            
+            // Random opacity
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Add a fun effect when clicking the greeting
+        const greeting = document.querySelector('.greeting');
+        greeting.addEventListener('click', function() {
+            this.style.color = '#ff4081';
+            setTimeout(() => {
+                this.style.color = '#ffeb3b';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
