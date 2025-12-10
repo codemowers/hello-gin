@@ -1,9 +1,9 @@
-FROM golang:1.19 AS build
+FROM golang:1.24 AS build
 WORKDIR /go/src/github.com/codemowers/hello-gin/
 COPY go.mod go.sum ./
 RUN go mod download
 COPY cmd ./
-RUN go build -ldflags "-linkmode 'external' -extldflags '-static'" -o /go/server .
+RUN go build -tags netgo -ldflags "-linkmode 'external' -extldflags '-static'" -o /go/server .
 
 FROM scratch
 WORKDIR /

@@ -1,0 +1,12 @@
+steps:
+  build:
+    image: woodpeckerci/plugin-kaniko
+    settings:
+      repo: ${CI_REPO}
+      tags: latest
+      registry: git.codemowers.io
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      extra_opts: --single-snapshot

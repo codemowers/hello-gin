@@ -18,7 +18,7 @@ spec:
         - name: imgcred
       containers:
         - name: hello-gin
-          image: hello-gin
+          image: git.codemowers.io/laurivosandi/hello-gin
           env:
             - name: USERNAME
               value: world
@@ -39,6 +39,7 @@ metadata:
   labels:
     app: hello-gin
 spec:
+  type: LoadBalancer
   selector:
     app: hello-gin
   ports:
@@ -51,22 +52,28 @@ kind: Ingress
 metadata:
   name: hello-gin
   annotations:
-    kubernetes.io/ingress.class: shared
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    external-dns.alpha.kubernetes.io/target: traefik.codemowers.ee
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
   rules:
-  - host: hello-foobar.codemowers.ee
+  - host: hello-lauri.ee-lte-1.codemowers.io
     http:
       paths:
       - pathType: Prefix
-        path: "/api/v1/gin"
+        path: /
         backend:
           service:
             name: hello-gin
             port:
               name: http
-  tls:
-  - hosts:
-    - "*.codemowers.ee"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: hello-gin
+spec:
+  selector:
+    matchLabels:
+      app: hello-gin
+  podMetricsEndpoints:
+    - port: metrics

@@ -10,11 +10,13 @@ manifests:
   rawYaml:
      - deployment.yaml
 
+
+# kubectl create secret docker-registry imgcred --docker-server=https://git.codemowers.io --docker-username=__token__ --docker-password=...
 build:
   artifacts:
-  - image: hello-gin
+  - image: git.codemowers.io/laurivosandi/hello-gin
 
   # Comment following lines below to build locally
-  cluster:
-    dockerConfig:
-      secretName: kaniko
+#  cluster:
+#    dockerConfig:
+#      secretName: kaniko
