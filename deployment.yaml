@@ -39,7 +39,6 @@ metadata:
   labels:
     app: hello-gin
 spec:
-  type: LoadBalancer
   selector:
     app: hello-gin
   ports:
