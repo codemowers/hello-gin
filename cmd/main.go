@@ -9,14 +9,33 @@ import (
 
 func main() {
 	router := gin.Default()
+
+	// Load HTML templates
+	router.LoadHTMLGlob("templates/*")
+
+	// Serve static files (for CSS, JS, etc.)
+	router.Static("/static", "./static")
+
 	metricRouter := gin.Default()
 	metrics := ginmetrics.GetMonitor()
 	metrics.SetMetricPath("/metrics")
-	metrics.Use(router)
+	metrics.UseWithoutExposingEndpoint(router)
 	metrics.Expose(metricRouter)
 
 	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello " + os.Getenv("USERNAME") + " from " + os.Getenv("MY_POD_NAME"))
+		// Get environment variables
+		username := "suvakelbas"
+
+
+		podName := os.Getenv("MY_POD_NAME")
+		if podName == "" {
+			podName = "Unknown Pod"
+		}
+
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"username": username,
+			"podName":  podName,
+		})
 	})
 
 	go func() {
